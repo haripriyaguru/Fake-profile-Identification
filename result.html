@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Responsive Profile Page</title>
+</head>
+<link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+/>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+
+<body>
+<div class="header__wrapper">
+    <header></header>
+    <div class="cols__container">
+        <div class="left__col">
+            <div class="img__container">
+                <img crossorigin="anonymous" src="static/pp.jpg" alt="PRoFILe"/>
+                <span></span>
+            </div>
+            <h2>{{response['full_name']}}</h2>
+            <p>{{response['username']}}</p>
+
+
+            <ul class="about">
+                <li><span>{{response['edge_followed_by']['count']}}</span>Followers</li>
+                <li><span>{{response['edge_follow']['count']}}</span>Following</li>
+                <li><span>{{response['edge_owner_to_timeline_media']['count']}}</span>Posts</li>
+
+            </ul>
+
+            <div class="content">
+                <p>
+                    {{response['biography']}}
+                </p>
+
+            </div>
+        </div>
+        <div class="right__col">
+            <nav>
+                <ul>
+                    <li><a href="">RESULT</a></li>
+                </ul>
+                <button onclick="window.location.href = '/report' ;" >Report</button>
+            </nav>
+
+            <div class="photos">
+                RESULT : {{result}}
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
