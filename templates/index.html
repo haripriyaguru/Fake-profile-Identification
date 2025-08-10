@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaGuard | Fake Profile Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/instagram-new.png" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+</head>
+<body>
+<div class="background-animation">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+<div class="container-wrapper">
+    <div class="auth-card">
+        <h1 class="logo-text">InstaGuard</h1>
+        <h2 class="subtitle">Fake Profile Detection</h2>
+        <form id="instagramForm" action="{{ url_for('predict') }}" method="POST">
+            <div class="input-group">
+                <i class="fa-solid fa-at icon"></i>
+                <input type="text" id="usernameInput" name="username" placeholder="Instagram Username" required>
+            </div>
+
+            <div id="loading" class="loading-spinner-container hidden">
+                <div class="loading-spinner"></div>
+                <p>Analyzing profile...</p>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fa-solid fa-magnifying-glass"></i> Check Account
+            </button>
+            <div id="error-message" class="error-message hidden"></div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const instagramForm = document.getElementById('instagramForm');
+        const loadingDiv = document.getElementById('loading');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessageDiv = document.getElementById('error-message');
+
+        instagramForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            loadingDiv.classList.remove('hidden');
+            submitBtn.disabled = true;
+            errorMessageDiv.classList.add('hidden');
+
+            const formData = new FormData(instagramForm);
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(response => {
+                loadingDiv.classList.add('hidden');
+                submitBtn.disabled = false;
+                if (response.success) {
+                    window.location.href = response.redirect;
+                } else {
+                    // Use a modal or a custom message box instead of alert()
+                    const message = 'Error: ' + (response.error || 'Unknown error occurred.');
+                    errorMessageDiv.textContent = message;
+                    errorMessageDiv.classList.remove('hidden');
+                }
+            })
+            .catch(() => {
+                loadingDiv.classList.add('hidden');
+                submitBtn.disabled = false;
+                // Use a modal or a custom message box instead of alert()
+                errorMessageDiv.textContent = 'An unexpected error occurred. Please try again later.';
+                errorMessageDiv.classList.remove('hidden');
+            });
+        });
+    });
+</script>
+</body>
+</html>

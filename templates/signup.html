@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - InstaGuard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/instagram-new.png" type="image/x-icon"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+</head>
+<body>
+<div class="background-animation">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+</div>
+<div class="container-wrapper">
+    <div class="auth-card">
+        <h1 class="logo-text">InstaGuard</h1>
+        <h2 class="subtitle">Create Your Account</h2>
+        <form method="POST" action="{{ url_for('signup') }}">
+            <div class="input-group">
+                <i class="fa-solid fa-envelope icon"></i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock icon"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fa-solid fa-user-plus"></i> Sign Up
+            </button>
+            <p class="auth-link">Already have an account? <a href="{{ url_for('signin') }}">Sign In</a></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>

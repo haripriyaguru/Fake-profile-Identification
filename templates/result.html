@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Profile Analysis Result</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="main-container">
+    <div class="result-card">
+        <header class="profile-header">
+            <div class="profile-pic-container">
+                <img crossorigin="anonymous" src="{{ url_for('static', filename='images/pp.jpg') }}" alt="Profile Picture"/>
+            </div>
+            <div class="profile-info">
+                <h2>{{ response['full_name'] }}</h2>
+                <p>@{{ response['username'] }}</p>
+            </div>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-item">
+                <span class="stat-number">{{ response['edge_followed_by']['count'] }}</span>
+                <span class="stat-label">Followers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ response['edge_follow']['count'] }}</span>
+                <span class="stat-label">Following</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">{{ response['edge_owner_to_timeline_media']['count'] }}</span>
+                <span class="stat-label">Posts</span>
+            </div>
+        </div>
+
+        <div class="bio-container">
+            <p>{{ response['biography'] }}</p>
+        </div>
+
+        <div class="result-badge">
+            <h3 id="result-text">Account is: {{ result }}</h3>
+        </div>
+
+        <div class="button-group">
+            <a href="/">
+                <button class="btn-secondary">Check Another</button>
+            </a>
+            <button onclick="window.location.href = '/report';" class="btn-primary">Report</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // This script will change the color of the result badge based on the result
+    document.addEventListener('DOMContentLoaded', function() {
+        const resultText = document.getElementById('result-text');
+        const resultBadge = resultText.parentElement;
+        const result = "{{ result }}";
+        if (result.trim() === 'Fake') {
+            resultBadge.style.backgroundColor = '#e74c3c'; // Red for fake
+        } else {
+            resultBadge.style.backgroundColor = '#2ecc71'; // Green for real
+        }
+    });
+</script>
+</body>
+</html>
